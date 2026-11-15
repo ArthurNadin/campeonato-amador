@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.pyc
+
+# Ambiente virtual (recriado por quem clona)
+venv/
+
+# Senhas e chaves
+.env
+
+# Banco local
+db.sqlite3
+
+# Editor
+.vscode/

@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block titulo %}Campeonato Amador{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
+</head>
+<body>
+  <header class="topo">
+    <a class="marca" href="{% url 'inicio' %}">Campeonato Amador</a>
+    {% if user.is_authenticated %}
+      <nav>
+        <a href="{% url 'inicio' %}">Meus campeonatos</a>
+      </nav>
+      <form class="sair" method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <span>{{ user.username }}</span>
+        <button type="submit" class="botao secundario">Sair</button>
+      </form>
+    {% endif %}
+  </header>
+
+  <main>
+    {% for mensagem in messages %}
+      <p class="mensagem {{ mensagem.tags }}">{{ mensagem }}</p>
+    {% endfor %}
+    {% block conteudo %}{% endblock %}
+  </main>
+</body>
+</html>

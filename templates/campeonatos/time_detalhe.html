@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block titulo %}{{ time.nome }}{% endblock %}
+
+{% block conteudo %}
+<p class="voltar"><a href="{% url 'campeonato_detalhe' time.campeonato.pk %}">← {{ time.campeonato.nome }}</a></p>
+
+<div class="cabecalho">
+  <div>
+    <h1>{{ time.nome }}</h1>
+    <p class="subtitulo">
+      {% if time.responsavel %}Responsável: {{ time.responsavel }}{% else %}Sem responsável informado{% endif %}
+      {% if time.telefone %} · {{ time.telefone }}{% endif %}
+    </p>
+  </div>
+  <div class="botoes">
+    <a class="botao secundario" href="{% url 'time_editar' time.pk %}">Editar</a>
+    <a class="botao secundario perigo" href="{% url 'time_excluir' time.pk %}">Excluir</a>
+  </div>
+</div>
+
+<section class="cartao">
+  <div class="cabecalho">
+    <h2>Jogadores</h2>
+    <a class="botao" href="{% url 'jogador_criar' time.pk %}">Novo jogador</a>
+  </div>
+  {% with jogadores=time.jogadores.all %}
+    {% if jogadores %}
+      <table>
+        <thead><tr><th>Camisa</th><th>Nome</th><th>Posição</th><th></th></tr></thead>
+        <tbody>
+          {% for jogador in jogadores %}
+            <tr>
+              <td>{{ jogador.numero|default:'—' }}</td>
+              <td>{{ jogador.nome }}</td>
+              <td>{{ jogador.get_posicao_display|default:'—' }}</td>
+              <td class="acoes">
+                <a href="{% url 'jogador_editar' jogador.pk %}">Editar</a>
+                <a class="perigo" href="{% url 'jogador_excluir' jogador.pk %}">Excluir</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p class="vazio">Nenhum jogador cadastrado neste time.</p>
+    {% endif %}
+  {% endwith %}
+</section>
+{% endblock %}

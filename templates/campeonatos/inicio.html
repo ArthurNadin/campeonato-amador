@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block titulo %}Meus campeonatos{% endblock %}
+
+{% block conteudo %}
+<section class="cartao">
+  <div class="cabecalho">
+    <h1>Meus campeonatos</h1>
+    <a class="botao" href="{% url 'campeonato_criar' %}">Novo campeonato</a>
+  </div>
+
+  {% if campeonatos %}
+    <table>
+      <thead><tr><th>Nome</th><th>Modalidade</th><th>Início</th><th>Times</th><th>Partidas</th></tr></thead>
+      <tbody>
+        {% for campeonato in campeonatos %}
+          <tr>
+            <td><a href="{% url 'campeonato_detalhe' campeonato.pk %}">{{ campeonato.nome }}</a></td>
+            <td>{{ campeonato.get_modalidade_display }}</td>
+            <td>{{ campeonato.data_inicio|date:'d/m/Y' }}</td>
+            <td>{{ campeonato.total_times }}</td>
+            <td>{{ campeonato.total_partidas }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p class="vazio">Você ainda não tem campeonatos. Crie o primeiro para cadastrar os times e as partidas.</p>
+  {% endif %}
+</section>
+{% endblock %}
